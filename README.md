@@ -45,7 +45,7 @@ export default App
 
 ```
 
-```
+```jsx
 import React from 'react'
 import { StateConsumer } from 'StateContext'
 
@@ -55,20 +55,21 @@ class ExampleChildCompoment extends React.Component {
   state = { data: "I'm a string stored in ExampleChildComponent.state.data" }
   
   render(){
-  	console.log(this.context.state.data) // I'm a string stored in App.state.data
-  	console.log(this.state.data) // I'm a string stored in ExampleChildComponent.state.data
-  	return (
+    console.log(this.context.state.data) // I'm a string stored in App.state.data
+    console.log(this.state.data) // I'm a string stored in ExampleChildComponent.state.data
+    
+    return (
   	
-		<div>App.state.data = { this.context.state.data }</div>
-		<button onClick={ (e)=>{ this.context.setState({ data: this.context.state.data + ' clicked' })>
-		Add 'clicked' to App.state.data
-		</button>
+      <div>App.state.data = { this.context.state.data }</div>
+      <button onClick={ (e)=>{ this.context.setState({ data: this.context.state.data + ' clicked' })>
+        Add 'clicked' to App.state.data
+      </button>
 		
-		<div>local component state.data = { this.state.data }</div>
-		<button onClick={ (e)=>{ this.setState({ data: this.state.data + ' clicked' })>
-		Add 'clicked' to ExampleChildComponent.state.data
-		</button>
-  	)	    
+      <div>local component state.data = { this.state.data }</div>
+      <button onClick={ (e)=>{ this.setState({ data: this.state.data + ' clicked' })>
+        Add 'clicked' to ExampleChildComponent.state.data
+      </button>
+    )	    
   }
 }
 
