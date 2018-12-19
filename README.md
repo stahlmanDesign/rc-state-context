@@ -1,74 +1,124 @@
-[![npm (scoped)](https://img.shields.io/npm/v/@stahlmandesign/rc-loading-spinner.svg)](https://github.com/stahlmandesign/rc-loading-spinner)
-[![license](https://img.shields.io/github/license/stahlmandesign/rc-loading-spinner.svg
-)](https://github.com/stahlmandesign/rc-loading-spinner)
+[![npm (scoped)](https://img.shields.io/npm/v/@stahlmandesign/rc-state-context.svg)](https://github.com/stahlmandesign/rc-state-context)
+[![license](https://img.shields.io/github/license/stahlmandesign/rc-state-context.svg
+)](https://github.com/stahlmandesign/rc-state-context)
 
 
-# @stahlmandesign/rc-loading-spinner
-React component that shows a loading spinner and a message
+# @stahlmandesign/rc-state-context
+React component that handles React context Provider and Consumer for use with context API in React v.16.3.0, and especially v16.6.0 with contextType allowing way to subscribe to context from a class
 
 # Git repository
-- https://github.com/stahlmandesign/rc-loading-spinner
+- https://github.com/stahlmandesign/rc-state-context
 
 # Installation
-- `npm install --save @stahlmandesign/rc-loading-spinner`
+- `npm install --save @stahlmandesign/rc-state-context`
 
 ## Usage
-```import Loading from '@stahlmandesign/rc-loading-spinner'```
+```import { StateProvider } from '@stahlmandesign/rc-state-contenxt'```
+
+```import { StateConsumer } from '@stahlmandesign/rc-state-contenxt'```
 ### Basic
 ```jsx
-<Loading />
+import React from 'react'
+import { StateProvider } from 'StateContext'
+
+class App extends React.Component{
+  state = { data: "I'm a string stored in App.state.data" }
+  render(){
+    return (
+    
+    <div className='App'>
+      <StateProvider state={ this.state } setState={ this.setState.bind(this) }>
+        {/* NOTE all your other components here including routes etc. */}
+        {/* any child component can import StateConsumer */}
+        {/* and access the state and setState of the main App */}
+        
+        <ExampleChildComponent/>
+        
+      </StateProvider>
+    </div>
+
+    )
+  }
+}
+
+export default App
+
+```
+
+```
+import React from 'react'
+import { StateConsumer } from 'StateContext'
+
+class ExampleChildCompoment extends React.Component {
+  static contextType = StateConsumer // as of React v16.6.0
+  
+  state = { data: "I'm a string stored in ExampleChildComponent.state.data" }
+  
+  render(){
+  	console.log(this.context.state.data) // I'm a string stored in App.state.data
+  	console.log(this.state.data) // I'm a string stored in ExampleChildComponent.state.data
+  	return (
+  	
+		<div>App.state.data = { this.context.state.data }</div>
+		<button onClick={ (e)=>{ this.context.setState({ data: this.context.state.data + ' clicked' })>
+		Add 'clicked' to App.state.data
+		</button>
+		
+		<div>local component state.data = { this.state.data }</div>
+		<button onClick={ (e)=>{ this.setState({ data: this.state.data + ' clicked' })>
+		Add 'clicked' to ExampleChildComponent.state.data
+		</button>
+  	)	    
+  }
+}
+
+export default ExampleChildComponent
 ```
 Shows:
 
-> Loading…
+> I'm a string stored in App.state.data
+
+> Add 'clicked' to App.state.data
+
+> I'm a string stored in ExampleChildComponent.state.data
+
+> Add 'clicked' to ExampleChildComponent.state.data
 
 
-
-### Customizing with props	
+### Used in a child component that is not class-based
 ```jsx
-<Loading
-	message={ 'Your string or component' }
-	spinner={ <img src={ yourImportedGif } /> }
-	className={ 'your-optional-class-names' }
-	style={{ background: 'red', textAlign: 'right' }}
-/>
+<StateConsumer>
+  {({ state, setState }) => (
+    <div>App.state.data = { state.data }</div>
+  )}
+</StateConsumer>
 ```
 
 # Source
 
 ```jsx
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { Component, createContext } from 'react'
 
-class Loading extends React.Component {
-  render(){
-    const { className, style, spinner, message } = this.props
+const { Provider, Consumer } = createContext()
 
+export const StateConsumer = Consumer
+
+export class StateProvider extends Component {
+  static defaultProps = {
+    state: {}
+  }
+
+  state = this.props.state
+
+  render () {
     return (
-      <div className={ 'Loading ' + className } style={ style }>
-        <div className='spinner'>{ spinner }</div>
-        <div className='message'>{ message }</div>
-      </div>
+      <Provider value={{ state: this.state, setState: this.setState.bind(this) }}>
+        { this.props.children }
+      </Provider>
     )
   }
 }
 
-Loading.propTypes = {
-  style: PropTypes.object,
-  className: PropTypes.string,
-  spinner: PropTypes.node,
-  message: PropTypes.node // Anything that can be rendered: numbers, strings, elements or an array (or fragment)
-}
-Loading.defaultProps = {
-  style: {
-    textAlign: 'center',
-    marginTop:'0em' // can be overridden by providing style property
-  },
-  className: '',
-  spinner: <i className='fa fa-spinner fa-pulse fa-3x fa-fw'/>, // default assumes FontAwesome 4.x loaded
-  message: 'Loading…'
-}
-export default Loading
 
 ```
 
