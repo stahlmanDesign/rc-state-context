@@ -1,6 +1,6 @@
 {
   "name": "@stahlmandesign/rc-state-context",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "React component that handles React context Provider and Consumer for use with context API in React v.16.3.0, and especially v16.6.0 with contextType allowing way to subscribe to context from a class",
   "main": "build/index.js",
   "peerDependencies": {
