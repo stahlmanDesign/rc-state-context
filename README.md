@@ -124,11 +124,13 @@ export class StateProvider extends Component {
 ```
 # Inspiration
 
-- This module was based on ideas an article by the author of `use-simple-state`
-- https://hackernoon.com/building-a-redux-like-state-manager-for-react-cd75cc2853b3
+- Based on ideas in this article by the author of `use-simple-state`
+  - https://hackernoon.com/building-a-redux-like-state-manager-for-react-cd75cc2853b3
+- Uses technique explained by an article on how to use `contextType` to access context in class-based components (much like the old unofficial context API)
+  - https://blog.kentcdodds.com/react-hooks-whats-going-to-happen-to-react-context-1881f8a058be
 
 # As an NPM module
 
 - Built according to this tutorial to allow publishing the ES6 React JSX code as an NPM module
-- https://medium.com/@BrodaNoel/how-to-create-a-react-component-and-publish-it-in-npm-668ad7d363ce
+  - https://medium.com/@BrodaNoel/how-to-create-a-react-component-and-publish-it-in-npm-668ad7d363ce
 - This module has evolved beyond the tutorial and now supports building the `static` keyword by including babel preset `stage-0`
