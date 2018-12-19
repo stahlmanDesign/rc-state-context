@@ -25,15 +25,15 @@ class App extends React.Component{
   state = { data: "I'm a string stored in App.state.data" }
   render(){
     return (
-    
+
     <div className='App'>
       <StateProvider state={ this.state } setState={ this.setState.bind(this) }>
         {/* NOTE all your other components here including routes etc. */}
         {/* any child component can import StateConsumer */}
         {/* and access the state and setState of the main App */}
-        
+
         <ExampleChildComponent/>
-        
+
       </StateProvider>
     </div>
 
@@ -51,20 +51,20 @@ import { StateConsumer } from 'StateContext'
 
 class ExampleChildCompoment extends React.Component {
   static contextType = StateConsumer // as of React v16.6.0
-  
+
   state = { data: "I'm a string stored in ExampleChildComponent.state.data" }
-  
+
   render(){
     console.log(this.context.state.data) // I'm a string stored in App.state.data
     console.log(this.state.data) // I'm a string stored in ExampleChildComponent.state.data
-    
+
     return (
-  	
+
       <div>App.state.data = { this.context.state.data }</div>
       <button onClick={ (e)=>{ this.context.setState({ data: this.context.state.data + ' clicked' })>
         Add 'clicked' to App.state.data
       </button>
-		
+
       <div>local component state.data = { this.state.data }</div>
       <button onClick={ (e)=>{ this.setState({ data: this.state.data + ' clicked' })>
         Add 'clicked' to ExampleChildComponent.state.data
@@ -122,9 +122,13 @@ export class StateProvider extends Component {
 
 
 ```
+# Inspiration
 
+- This module was based on ideas an article by the author of `use-simple-state`
+- https://hackernoon.com/building-a-redux-like-state-manager-for-react-cd75cc2853b3
 
 # As an NPM module
+
 - Built according to this tutorial to allow publishing the ES6 React JSX code as an NPM module
 - https://medium.com/@BrodaNoel/how-to-create-a-react-component-and-publish-it-in-npm-668ad7d363ce
-	
+- This module has evolved beyond the tutorial and now supports building the `static` keyword by including babel preset `stage-0`
